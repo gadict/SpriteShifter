@@ -1,0 +1,217 @@
+[gd_scene load_steps=8 format=3 uid="uid://xcfhbsiv6hvu"]
+
+[ext_resource type="Script" uid="uid://e034qf6yxdwd" path="res://Scripts/file_menu.gd" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://ds1wsfrs5jive" path="res://Scripts/loaded_sprites.gd" id="2_0xm2m"]
+[ext_resource type="Script" uid="uid://c763pcebfla01" path="res://Scripts/x_offset.gd" id="3_h2yge"]
+[ext_resource type="Script" uid="uid://3u4r7sjk37rv" path="res://Scripts/y_offset.gd" id="4_1bvp3"]
+[ext_resource type="Script" uid="uid://0k1g2pr08op3" path="res://Scripts/save_current_button.gd" id="5_lquwl"]
+[ext_resource type="Script" uid="uid://dwqfkamflnjw2" path="res://Scripts/apply_all_button.gd" id="6_7mycd"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_7dm0k"]
+load_path = "res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex"
+
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.147672, 0.147672, 0.147672, 1)
+
+[node name="MainContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MenuBar" type="MenuBar" parent="MainContainer"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="MainContainer/MenuBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.224304, 0.224304, 0.224304, 1)
+
+[node name="MenuMargins" type="MarginContainer" parent="MainContainer/MenuBar"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="MenuContainer" type="HBoxContainer" parent="MainContainer/MenuBar/MenuMargins"]
+layout_mode = 2
+
+[node name="FileMenu" type="MenuButton" parent="MainContainer/MenuBar/MenuMargins/MenuContainer" node_paths=PackedStringArray("sprite_viewport", "selected_sprite", "sprite_selector", "dialog")]
+layout_mode = 2
+text = "File"
+script = ExtResource("1_ig7tw")
+sprite_viewport = NodePath("../../../../BodyContainer/SubViewportContainer/SubViewport")
+selected_sprite = NodePath("../../../../BodyContainer/SubViewportContainer/SubViewport/Sprite2D")
+sprite_selector = NodePath("../../../../BodyContainer/SpritesContainer/ScrollContainer/LoadedSprites")
+dialog = NodePath("../../../../../LoadSpritesDialog")
+
+[node name="BodyContainer" type="HBoxContainer" parent="MainContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="SpritesContainer" type="VBoxContainer" parent="MainContainer/BodyContainer"]
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MainContainer/BodyContainer/SpritesContainer"]
+layout_mode = 2
+text = "Loaded Sprites"
+horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MainContainer/BodyContainer/SpritesContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="LoadedSprites" type="ItemList" parent="MainContainer/BodyContainer/SpritesContainer/ScrollContainer" node_paths=PackedStringArray("sprite_viewport", "selected_sprite")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+max_text_lines = 4
+auto_height = true
+text_overrun_behavior = 4
+same_column_width = true
+fixed_icon_size = Vector2i(32, 32)
+script = ExtResource("2_0xm2m")
+sprite_viewport = NodePath("../../../SubViewportContainer/SubViewport")
+selected_sprite = NodePath("../../../SubViewportContainer/SubViewport/Sprite2D")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="MainContainer/BodyContainer"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+
+[node name="SubViewport" type="SubViewport" parent="MainContainer/BodyContainer/SubViewportContainer"]
+disable_3d = true
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(128, 128)
+render_target_update_mode = 4
+
+[node name="Sprite2D" type="Sprite2D" parent="MainContainer/BodyContainer/SubViewportContainer/SubViewport"]
+position = Vector2(64, 64)
+texture = SubResource("CompressedTexture2D_7dm0k")
+
+[node name="ParamaterContainer" type="VBoxContainer" parent="MainContainer/BodyContainer"]
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="XOffsetContainer" type="HBoxContainer" parent="MainContainer/BodyContainer/ParamaterContainer"]
+layout_mode = 2
+
+[node name="XOffsetLabel" type="Label" parent="MainContainer/BodyContainer/ParamaterContainer/XOffsetContainer"]
+layout_mode = 2
+text = "X-Offset: "
+
+[node name="XOffset" type="HSlider" parent="MainContainer/BodyContainer/ParamaterContainer/XOffsetContainer" node_paths=PackedStringArray("sprite", "value_label")]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+min_value = -16.0
+max_value = 16.0
+tick_count = 3
+ticks_on_borders = true
+script = ExtResource("3_h2yge")
+sprite = NodePath("../../../SubViewportContainer/SubViewport/Sprite2D")
+value_label = NodePath("../XOffsetLabel2")
+
+[node name="XOffsetLabel2" type="Label" parent="MainContainer/BodyContainer/ParamaterContainer/XOffsetContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="YOffsetContainer" type="HBoxContainer" parent="MainContainer/BodyContainer/ParamaterContainer"]
+layout_mode = 2
+
+[node name="YOffsetLabel" type="Label" parent="MainContainer/BodyContainer/ParamaterContainer/YOffsetContainer"]
+layout_mode = 2
+text = "Y-Offset: "
+
+[node name="YOffset" type="HSlider" parent="MainContainer/BodyContainer/ParamaterContainer/YOffsetContainer" node_paths=PackedStringArray("sprite", "value_label")]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+min_value = -16.0
+max_value = 16.0
+tick_count = 3
+ticks_on_borders = true
+script = ExtResource("4_1bvp3")
+sprite = NodePath("../../../SubViewportContainer/SubViewport/Sprite2D")
+value_label = NodePath("../YOffsetLabel2")
+
+[node name="YOffsetLabel2" type="Label" parent="MainContainer/BodyContainer/ParamaterContainer/YOffsetContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="FlipContainer" type="HBoxContainer" parent="MainContainer/BodyContainer/ParamaterContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="FlipH" type="CheckBox" parent="MainContainer/BodyContainer/ParamaterContainer/FlipContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Flip H"
+
+[node name="FlipV" type="CheckBox" parent="MainContainer/BodyContainer/ParamaterContainer/FlipContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Flip V"
+
+[node name="SaveCurrentButton" type="Button" parent="MainContainer/BodyContainer/ParamaterContainer" node_paths=PackedStringArray("sprite", "sprite_viewport")]
+layout_mode = 2
+text = "Save Current Sprite"
+script = ExtResource("5_lquwl")
+sprite = NodePath("../../SubViewportContainer/SubViewport/Sprite2D")
+sprite_viewport = NodePath("../../SubViewportContainer/SubViewport")
+
+[node name="ApplyAllButton" type="Button" parent="MainContainer/BodyContainer/ParamaterContainer" node_paths=PackedStringArray("sprite", "sprite_viewport", "sprite_selector")]
+layout_mode = 2
+text = "Apply Current Settings to All"
+script = ExtResource("6_7mycd")
+sprite = NodePath("../../SubViewportContainer/SubViewport/Sprite2D")
+sprite_viewport = NodePath("../../SubViewportContainer/SubViewport")
+sprite_selector = NodePath("../../SpritesContainer/ScrollContainer/LoadedSprites")
+
+[node name="LoadSpritesDialog" type="FileDialog" parent="."]
+title = "Open File(s)"
+ok_button_text = "Open"
+file_mode = 1
+access = 2
+filters = PackedStringArray("*.png")
+use_native_dialog = true
+
+[connection signal="item_selected" from="MainContainer/BodyContainer/SpritesContainer/ScrollContainer/LoadedSprites" to="MainContainer/BodyContainer/SpritesContainer/ScrollContainer/LoadedSprites" method="_on_item_selected"]
+[connection signal="value_changed" from="MainContainer/BodyContainer/ParamaterContainer/XOffsetContainer/XOffset" to="MainContainer/BodyContainer/ParamaterContainer/XOffsetContainer/XOffset" method="_on_value_changed"]
+[connection signal="value_changed" from="MainContainer/BodyContainer/ParamaterContainer/YOffsetContainer/YOffset" to="MainContainer/BodyContainer/ParamaterContainer/YOffsetContainer/YOffset" method="_on_value_changed"]
+[connection signal="toggled" from="MainContainer/BodyContainer/ParamaterContainer/FlipContainer/FlipH" to="MainContainer/BodyContainer/ParamaterContainer/XOffsetContainer/XOffset" method="_on_flip_x_toggled"]
+[connection signal="toggled" from="MainContainer/BodyContainer/ParamaterContainer/FlipContainer/FlipV" to="MainContainer/BodyContainer/ParamaterContainer/YOffsetContainer/YOffset" method="_on_flip_y_toggled"]
+[connection signal="pressed" from="MainContainer/BodyContainer/ParamaterContainer/SaveCurrentButton" to="MainContainer/BodyContainer/ParamaterContainer/SaveCurrentButton" method="_on_pressed"]
+[connection signal="pressed" from="MainContainer/BodyContainer/ParamaterContainer/ApplyAllButton" to="MainContainer/BodyContainer/ParamaterContainer/ApplyAllButton" method="_on_pressed"]

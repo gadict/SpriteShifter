@@ -1,0 +1,7 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+*.exe
+*.sh
+*.pck
+*.x86_64
