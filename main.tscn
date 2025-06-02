@@ -210,12 +210,14 @@ text = "Canvas Width / Height:"
 [node name="CanvasSizeX" type="LineEdit" parent="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/CanvasSizeContainer" node_paths=PackedStringArray("sprite_selector")]
 layout_mode = 2
 size_flags_horizontal = 4
+text = "32"
 script = ExtResource("6_5vw27")
 sprite_selector = NodePath("../../../SpritesContainer/ScrollContainer/LoadedSprites")
 
 [node name="CanvasSizeY" type="LineEdit" parent="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/CanvasSizeContainer" node_paths=PackedStringArray("sprite_selector")]
 layout_mode = 2
 size_flags_horizontal = 4
+text = "32"
 script = ExtResource("7_kek77")
 sprite_selector = NodePath("../../../SpritesContainer/ScrollContainer/LoadedSprites")
 
