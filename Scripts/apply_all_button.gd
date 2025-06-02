@@ -1,10 +1,7 @@
 extends Button
 
-@export var sprite : Sprite2D 
 @export var sprite_viewport : SubViewport
 @export var sprite_selector : ItemList
-
-
 
 func _on_pressed() -> void:
 	for index in range(sprite_selector.item_count):

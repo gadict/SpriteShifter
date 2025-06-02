@@ -185,18 +185,16 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "Flip V"
 
-[node name="SaveCurrentButton" type="Button" parent="MainContainer/BodyContainer/ParamaterContainer" node_paths=PackedStringArray("sprite", "sprite_viewport")]
+[node name="SaveCurrentButton" type="Button" parent="MainContainer/BodyContainer/ParamaterContainer" node_paths=PackedStringArray("sprite_viewport")]
 layout_mode = 2
 text = "Save Current Sprite"
 script = ExtResource("5_lquwl")
-sprite = NodePath("../../SubViewportContainer/SubViewport/Sprite2D")
 sprite_viewport = NodePath("../../SubViewportContainer/SubViewport")
 
-[node name="ApplyAllButton" type="Button" parent="MainContainer/BodyContainer/ParamaterContainer" node_paths=PackedStringArray("sprite", "sprite_viewport", "sprite_selector")]
+[node name="ApplyAllButton" type="Button" parent="MainContainer/BodyContainer/ParamaterContainer" node_paths=PackedStringArray("sprite_viewport", "sprite_selector")]
 layout_mode = 2
 text = "Apply Current Settings to All"
 script = ExtResource("6_7mycd")
-sprite = NodePath("../../SubViewportContainer/SubViewport/Sprite2D")
 sprite_viewport = NodePath("../../SubViewportContainer/SubViewport")
 sprite_selector = NodePath("../../SpritesContainer/ScrollContainer/LoadedSprites")
 
