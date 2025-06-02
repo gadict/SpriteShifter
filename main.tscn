@@ -6,9 +6,9 @@
 [ext_resource type="Script" uid="uid://3u4r7sjk37rv" path="res://Scripts/y_offset.gd" id="4_1bvp3"]
 [ext_resource type="Script" uid="uid://be6etf2dldf2n" path="res://Scripts/canvas_override_toggle.gd" id="5_272bh"]
 [ext_resource type="Script" uid="uid://0k1g2pr08op3" path="res://Scripts/save_current_button.gd" id="5_lquwl"]
-[ext_resource type="Script" uid="uid://b3l0ovmphx50t" path="res://canvas_size_x.gd" id="6_5vw27"]
+[ext_resource type="Script" uid="uid://b3l0ovmphx50t" path="res://Scripts/canvas_size_x.gd" id="6_5vw27"]
 [ext_resource type="Script" uid="uid://dwqfkamflnjw2" path="res://Scripts/apply_all_button.gd" id="6_7mycd"]
-[ext_resource type="Script" uid="uid://cyuv4kevbnure" path="res://canvas_size_y.gd" id="7_kek77"]
+[ext_resource type="Script" uid="uid://cyuv4kevbnure" path="res://Scripts/canvas_size_y.gd" id="7_kek77"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_7dm0k"]
 load_path = "res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex"
