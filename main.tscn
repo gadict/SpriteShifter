@@ -1,11 +1,14 @@
-[gd_scene load_steps=8 format=3 uid="uid://xcfhbsiv6hvu"]
+[gd_scene load_steps=11 format=3 uid="uid://xcfhbsiv6hvu"]
 
 [ext_resource type="Script" uid="uid://e034qf6yxdwd" path="res://Scripts/file_menu.gd" id="1_ig7tw"]
 [ext_resource type="Script" uid="uid://ds1wsfrs5jive" path="res://Scripts/loaded_sprites.gd" id="2_0xm2m"]
 [ext_resource type="Script" uid="uid://c763pcebfla01" path="res://Scripts/x_offset.gd" id="3_h2yge"]
 [ext_resource type="Script" uid="uid://3u4r7sjk37rv" path="res://Scripts/y_offset.gd" id="4_1bvp3"]
+[ext_resource type="Script" uid="uid://be6etf2dldf2n" path="res://Scripts/canvas_override_toggle.gd" id="5_272bh"]
 [ext_resource type="Script" uid="uid://0k1g2pr08op3" path="res://Scripts/save_current_button.gd" id="5_lquwl"]
+[ext_resource type="Script" uid="uid://b3l0ovmphx50t" path="res://canvas_size_x.gd" id="6_5vw27"]
 [ext_resource type="Script" uid="uid://dwqfkamflnjw2" path="res://Scripts/apply_all_button.gd" id="6_7mycd"]
+[ext_resource type="Script" uid="uid://cyuv4kevbnure" path="res://canvas_size_y.gd" id="7_kek77"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_7dm0k"]
 load_path = "res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex"
@@ -62,29 +65,34 @@ layout_mode = 2
 layout_mode = 2
 text = "File"
 script = ExtResource("1_ig7tw")
-sprite_viewport = NodePath("../../../../BodyContainer/SubViewportContainer/SubViewport")
-selected_sprite = NodePath("../../../../BodyContainer/SubViewportContainer/SubViewport/Sprite2D")
-sprite_selector = NodePath("../../../../BodyContainer/SpritesContainer/ScrollContainer/LoadedSprites")
+sprite_viewport = NodePath("../../../../BodyMargins/BodyContainer/SubViewportContainer/SubViewport")
+selected_sprite = NodePath("../../../../BodyMargins/BodyContainer/SubViewportContainer/SubViewport/Sprite2D")
+sprite_selector = NodePath("../../../../BodyMargins/BodyContainer/SpritesContainer/ScrollContainer/LoadedSprites")
 dialog = NodePath("../../../../../LoadSpritesDialog")
 
-[node name="BodyContainer" type="HBoxContainer" parent="MainContainer"]
+[node name="BodyMargins" type="MarginContainer" parent="MainContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_right = 5
+
+[node name="BodyContainer" type="HBoxContainer" parent="MainContainer/BodyMargins"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="SpritesContainer" type="VBoxContainer" parent="MainContainer/BodyContainer"]
+[node name="SpritesContainer" type="VBoxContainer" parent="MainContainer/BodyMargins/BodyContainer"]
 custom_minimum_size = Vector2(256, 0)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MainContainer/BodyContainer/SpritesContainer"]
+[node name="Label" type="Label" parent="MainContainer/BodyMargins/BodyContainer/SpritesContainer"]
 layout_mode = 2
 text = "Loaded Sprites"
 horizontal_alignment = 1
 
-[node name="ScrollContainer" type="ScrollContainer" parent="MainContainer/BodyContainer/SpritesContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="MainContainer/BodyMargins/BodyContainer/SpritesContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="LoadedSprites" type="ItemList" parent="MainContainer/BodyContainer/SpritesContainer/ScrollContainer" node_paths=PackedStringArray("sprite_viewport", "selected_sprite")]
+[node name="LoadedSprites" type="ItemList" parent="MainContainer/BodyMargins/BodyContainer/SpritesContainer/ScrollContainer" node_paths=PackedStringArray("sprite_viewport", "selected_sprite")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -97,37 +105,37 @@ script = ExtResource("2_0xm2m")
 sprite_viewport = NodePath("../../../SubViewportContainer/SubViewport")
 selected_sprite = NodePath("../../../SubViewportContainer/SubViewport/Sprite2D")
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="MainContainer/BodyContainer"]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="MainContainer/BodyMargins/BodyContainer"]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
 
-[node name="SubViewport" type="SubViewport" parent="MainContainer/BodyContainer/SubViewportContainer"]
+[node name="SubViewport" type="SubViewport" parent="MainContainer/BodyMargins/BodyContainer/SubViewportContainer"]
 disable_3d = true
 transparent_bg = true
 handle_input_locally = false
 size = Vector2i(128, 128)
 render_target_update_mode = 4
 
-[node name="Sprite2D" type="Sprite2D" parent="MainContainer/BodyContainer/SubViewportContainer/SubViewport"]
+[node name="Sprite2D" type="Sprite2D" parent="MainContainer/BodyMargins/BodyContainer/SubViewportContainer/SubViewport"]
 position = Vector2(64, 64)
 texture = SubResource("CompressedTexture2D_7dm0k")
 
-[node name="ParamaterContainer" type="VBoxContainer" parent="MainContainer/BodyContainer"]
+[node name="ParamaterContainer" type="VBoxContainer" parent="MainContainer/BodyMargins/BodyContainer"]
 custom_minimum_size = Vector2(256, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="XOffsetContainer" type="HBoxContainer" parent="MainContainer/BodyContainer/ParamaterContainer"]
+[node name="XOffsetContainer" type="HBoxContainer" parent="MainContainer/BodyMargins/BodyContainer/ParamaterContainer"]
 layout_mode = 2
 
-[node name="XOffsetLabel" type="Label" parent="MainContainer/BodyContainer/ParamaterContainer/XOffsetContainer"]
+[node name="XOffsetLabel" type="Label" parent="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/XOffsetContainer"]
 layout_mode = 2
 text = "X-Offset: "
 
-[node name="XOffset" type="HSlider" parent="MainContainer/BodyContainer/ParamaterContainer/XOffsetContainer" node_paths=PackedStringArray("sprite", "value_label")]
+[node name="XOffset" type="HSlider" parent="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/XOffsetContainer" node_paths=PackedStringArray("sprite", "value_label")]
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -140,18 +148,18 @@ script = ExtResource("3_h2yge")
 sprite = NodePath("../../../SubViewportContainer/SubViewport/Sprite2D")
 value_label = NodePath("../XOffsetLabel2")
 
-[node name="XOffsetLabel2" type="Label" parent="MainContainer/BodyContainer/ParamaterContainer/XOffsetContainer"]
+[node name="XOffsetLabel2" type="Label" parent="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/XOffsetContainer"]
 layout_mode = 2
 text = "0"
 
-[node name="YOffsetContainer" type="HBoxContainer" parent="MainContainer/BodyContainer/ParamaterContainer"]
+[node name="YOffsetContainer" type="HBoxContainer" parent="MainContainer/BodyMargins/BodyContainer/ParamaterContainer"]
 layout_mode = 2
 
-[node name="YOffsetLabel" type="Label" parent="MainContainer/BodyContainer/ParamaterContainer/YOffsetContainer"]
+[node name="YOffsetLabel" type="Label" parent="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/YOffsetContainer"]
 layout_mode = 2
 text = "Y-Offset: "
 
-[node name="YOffset" type="HSlider" parent="MainContainer/BodyContainer/ParamaterContainer/YOffsetContainer" node_paths=PackedStringArray("sprite", "value_label")]
+[node name="YOffset" type="HSlider" parent="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/YOffsetContainer" node_paths=PackedStringArray("sprite", "value_label")]
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -164,34 +172,60 @@ script = ExtResource("4_1bvp3")
 sprite = NodePath("../../../SubViewportContainer/SubViewport/Sprite2D")
 value_label = NodePath("../YOffsetLabel2")
 
-[node name="YOffsetLabel2" type="Label" parent="MainContainer/BodyContainer/ParamaterContainer/YOffsetContainer"]
+[node name="YOffsetLabel2" type="Label" parent="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/YOffsetContainer"]
 layout_mode = 2
 text = "0"
 
-[node name="FlipContainer" type="HBoxContainer" parent="MainContainer/BodyContainer/ParamaterContainer"]
+[node name="FlipContainer" type="HBoxContainer" parent="MainContainer/BodyMargins/BodyContainer/ParamaterContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="FlipH" type="CheckBox" parent="MainContainer/BodyContainer/ParamaterContainer/FlipContainer"]
+[node name="FlipH" type="CheckBox" parent="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/FlipContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "Flip H"
 
-[node name="FlipV" type="CheckBox" parent="MainContainer/BodyContainer/ParamaterContainer/FlipContainer"]
+[node name="FlipV" type="CheckBox" parent="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/FlipContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "Flip V"
 
-[node name="SaveCurrentButton" type="Button" parent="MainContainer/BodyContainer/ParamaterContainer" node_paths=PackedStringArray("sprite_viewport")]
+[node name="CanvasOverrideToggle" type="CheckButton" parent="MainContainer/BodyMargins/BodyContainer/ParamaterContainer" node_paths=PackedStringArray("sprite_selector")]
+layout_mode = 2
+text = "Override canvas size:"
+script = ExtResource("5_272bh")
+sprite_selector = NodePath("../../SpritesContainer/ScrollContainer/LoadedSprites")
+
+[node name="CanvasSizeContainer" type="HBoxContainer" parent="MainContainer/BodyMargins/BodyContainer/ParamaterContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="CanvasSizeLabel" type="Label" parent="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/CanvasSizeContainer"]
+layout_mode = 2
+text = "Canvas Width / Height:"
+
+[node name="CanvasSizeX" type="LineEdit" parent="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/CanvasSizeContainer" node_paths=PackedStringArray("sprite_selector")]
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("6_5vw27")
+sprite_selector = NodePath("../../../SpritesContainer/ScrollContainer/LoadedSprites")
+
+[node name="CanvasSizeY" type="LineEdit" parent="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/CanvasSizeContainer" node_paths=PackedStringArray("sprite_selector")]
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("7_kek77")
+sprite_selector = NodePath("../../../SpritesContainer/ScrollContainer/LoadedSprites")
+
+[node name="SaveCurrentButton" type="Button" parent="MainContainer/BodyMargins/BodyContainer/ParamaterContainer" node_paths=PackedStringArray("sprite_viewport")]
 layout_mode = 2
 text = "Save Current Sprite"
 script = ExtResource("5_lquwl")
 sprite_viewport = NodePath("../../SubViewportContainer/SubViewport")
 
-[node name="ApplyAllButton" type="Button" parent="MainContainer/BodyContainer/ParamaterContainer" node_paths=PackedStringArray("sprite_viewport", "sprite_selector")]
+[node name="ApplyAllButton" type="Button" parent="MainContainer/BodyMargins/BodyContainer/ParamaterContainer" node_paths=PackedStringArray("sprite_viewport", "sprite_selector")]
 layout_mode = 2
 text = "Apply Current Settings to All"
 script = ExtResource("6_7mycd")
@@ -206,10 +240,13 @@ access = 2
 filters = PackedStringArray("*.png")
 use_native_dialog = true
 
-[connection signal="item_selected" from="MainContainer/BodyContainer/SpritesContainer/ScrollContainer/LoadedSprites" to="MainContainer/BodyContainer/SpritesContainer/ScrollContainer/LoadedSprites" method="_on_item_selected"]
-[connection signal="value_changed" from="MainContainer/BodyContainer/ParamaterContainer/XOffsetContainer/XOffset" to="MainContainer/BodyContainer/ParamaterContainer/XOffsetContainer/XOffset" method="_on_value_changed"]
-[connection signal="value_changed" from="MainContainer/BodyContainer/ParamaterContainer/YOffsetContainer/YOffset" to="MainContainer/BodyContainer/ParamaterContainer/YOffsetContainer/YOffset" method="_on_value_changed"]
-[connection signal="toggled" from="MainContainer/BodyContainer/ParamaterContainer/FlipContainer/FlipH" to="MainContainer/BodyContainer/ParamaterContainer/XOffsetContainer/XOffset" method="_on_flip_x_toggled"]
-[connection signal="toggled" from="MainContainer/BodyContainer/ParamaterContainer/FlipContainer/FlipV" to="MainContainer/BodyContainer/ParamaterContainer/YOffsetContainer/YOffset" method="_on_flip_y_toggled"]
-[connection signal="pressed" from="MainContainer/BodyContainer/ParamaterContainer/SaveCurrentButton" to="MainContainer/BodyContainer/ParamaterContainer/SaveCurrentButton" method="_on_pressed"]
-[connection signal="pressed" from="MainContainer/BodyContainer/ParamaterContainer/ApplyAllButton" to="MainContainer/BodyContainer/ParamaterContainer/ApplyAllButton" method="_on_pressed"]
+[connection signal="item_selected" from="MainContainer/BodyMargins/BodyContainer/SpritesContainer/ScrollContainer/LoadedSprites" to="MainContainer/BodyMargins/BodyContainer/SpritesContainer/ScrollContainer/LoadedSprites" method="_on_item_selected"]
+[connection signal="value_changed" from="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/XOffsetContainer/XOffset" to="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/XOffsetContainer/XOffset" method="_on_value_changed"]
+[connection signal="value_changed" from="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/YOffsetContainer/YOffset" to="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/YOffsetContainer/YOffset" method="_on_value_changed"]
+[connection signal="toggled" from="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/FlipContainer/FlipH" to="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/XOffsetContainer/XOffset" method="_on_flip_x_toggled"]
+[connection signal="toggled" from="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/FlipContainer/FlipV" to="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/YOffsetContainer/YOffset" method="_on_flip_y_toggled"]
+[connection signal="toggled" from="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/CanvasOverrideToggle" to="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/CanvasOverrideToggle" method="_on_toggled"]
+[connection signal="text_changed" from="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/CanvasSizeContainer/CanvasSizeX" to="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/CanvasSizeContainer/CanvasSizeX" method="_on_text_changed"]
+[connection signal="text_changed" from="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/CanvasSizeContainer/CanvasSizeY" to="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/CanvasSizeContainer/CanvasSizeY" method="_on_text_changed"]
+[connection signal="pressed" from="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/SaveCurrentButton" to="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/SaveCurrentButton" method="_on_pressed"]
+[connection signal="pressed" from="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/ApplyAllButton" to="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/ApplyAllButton" method="_on_pressed"]
