@@ -1,7 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://xcfhbsiv6hvu"]
+[gd_scene load_steps=13 format=3 uid="uid://xcfhbsiv6hvu"]
 
 [ext_resource type="Script" uid="uid://e034qf6yxdwd" path="res://Scripts/file_menu.gd" id="1_ig7tw"]
 [ext_resource type="Script" uid="uid://ds1wsfrs5jive" path="res://Scripts/loaded_sprites.gd" id="2_0xm2m"]
+[ext_resource type="Shader" uid="uid://bvkpcbivpek35" path="res://Scripts/grid.gdshader" id="3_4c57u"]
 [ext_resource type="Script" uid="uid://c763pcebfla01" path="res://Scripts/x_offset.gd" id="3_h2yge"]
 [ext_resource type="Script" uid="uid://3u4r7sjk37rv" path="res://Scripts/y_offset.gd" id="4_1bvp3"]
 [ext_resource type="Script" uid="uid://be6etf2dldf2n" path="res://Scripts/canvas_override_toggle.gd" id="5_272bh"]
@@ -9,6 +10,12 @@
 [ext_resource type="Script" uid="uid://b3l0ovmphx50t" path="res://Scripts/canvas_size_x.gd" id="6_5vw27"]
 [ext_resource type="Script" uid="uid://dwqfkamflnjw2" path="res://Scripts/apply_all_button.gd" id="6_7mycd"]
 [ext_resource type="Script" uid="uid://cyuv4kevbnure" path="res://Scripts/canvas_size_y.gd" id="7_kek77"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_efxa6"]
+shader = ExtResource("3_4c57u")
+shader_parameter/line_color = Color(0.2, 0.3, 0.5, 1)
+shader_parameter/thickness = 6.0
+shader_parameter/zoom = 10.5
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_7dm0k"]
 load_path = "res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex"
@@ -92,7 +99,7 @@ horizontal_alignment = 1
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="LoadedSprites" type="ItemList" parent="MainContainer/BodyMargins/BodyContainer/SpritesContainer/ScrollContainer" node_paths=PackedStringArray("sprite_viewport", "selected_sprite")]
+[node name="LoadedSprites" type="ItemList" parent="MainContainer/BodyMargins/BodyContainer/SpritesContainer/ScrollContainer" node_paths=PackedStringArray("sprite_viewport", "selected_sprite", "grid")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -104,6 +111,7 @@ fixed_icon_size = Vector2i(32, 32)
 script = ExtResource("2_0xm2m")
 sprite_viewport = NodePath("../../../SubViewportContainer/SubViewport")
 selected_sprite = NodePath("../../../SubViewportContainer/SubViewport/Sprite2D")
+grid = NodePath("../../../SubViewportContainer/SubViewport/Grid")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="MainContainer/BodyMargins/BodyContainer"]
 custom_minimum_size = Vector2(128, 128)
@@ -117,6 +125,12 @@ transparent_bg = true
 handle_input_locally = false
 size = Vector2i(128, 128)
 render_target_update_mode = 4
+
+[node name="Grid" type="ColorRect" parent="MainContainer/BodyMargins/BodyContainer/SubViewportContainer/SubViewport"]
+material = SubResource("ShaderMaterial_efxa6")
+offset_right = 128.0
+offset_bottom = 128.0
+color = Color(0, 0, 0, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="MainContainer/BodyMargins/BodyContainer/SubViewportContainer/SubViewport"]
 position = Vector2(64, 64)
@@ -140,8 +154,8 @@ custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
-min_value = -16.0
-max_value = 16.0
+min_value = -64.0
+max_value = 64.0
 tick_count = 3
 ticks_on_borders = true
 script = ExtResource("3_h2yge")
@@ -164,8 +178,8 @@ custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
-min_value = -16.0
-max_value = 16.0
+min_value = -64.0
+max_value = 64.0
 tick_count = 3
 ticks_on_borders = true
 script = ExtResource("4_1bvp3")
@@ -221,18 +235,20 @@ text = "32"
 script = ExtResource("7_kek77")
 sprite_selector = NodePath("../../../SpritesContainer/ScrollContainer/LoadedSprites")
 
-[node name="SaveCurrentButton" type="Button" parent="MainContainer/BodyMargins/BodyContainer/ParamaterContainer" node_paths=PackedStringArray("sprite_viewport")]
+[node name="SaveCurrentButton" type="Button" parent="MainContainer/BodyMargins/BodyContainer/ParamaterContainer" node_paths=PackedStringArray("sprite_viewport", "grid")]
 layout_mode = 2
 text = "Save Current Sprite"
 script = ExtResource("5_lquwl")
 sprite_viewport = NodePath("../../SubViewportContainer/SubViewport")
+grid = NodePath("../../SubViewportContainer/SubViewport/Grid")
 
-[node name="ApplyAllButton" type="Button" parent="MainContainer/BodyMargins/BodyContainer/ParamaterContainer" node_paths=PackedStringArray("sprite_viewport", "sprite_selector")]
+[node name="ApplyAllButton" type="Button" parent="MainContainer/BodyMargins/BodyContainer/ParamaterContainer" node_paths=PackedStringArray("sprite_viewport", "sprite_selector", "grid")]
 layout_mode = 2
 text = "Apply Current Settings to All"
 script = ExtResource("6_7mycd")
 sprite_viewport = NodePath("../../SubViewportContainer/SubViewport")
 sprite_selector = NodePath("../../SpritesContainer/ScrollContainer/LoadedSprites")
+grid = NodePath("../../SubViewportContainer/SubViewport/Grid")
 
 [node name="LoadSpritesDialog" type="FileDialog" parent="."]
 title = "Open File(s)"
