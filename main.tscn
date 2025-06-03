@@ -15,7 +15,7 @@
 shader = ExtResource("3_4c57u")
 shader_parameter/line_color = Color(0.2, 0.3, 0.5, 1)
 shader_parameter/thickness = 6.0
-shader_parameter/zoom = 10.5
+shader_parameter/zoom = 10.0
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_7dm0k"]
 load_path = "res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex"
