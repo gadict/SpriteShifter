@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://xcfhbsiv6hvu"]
+[gd_scene load_steps=17 format=3 uid="uid://xcfhbsiv6hvu"]
 
 [ext_resource type="Script" uid="uid://e034qf6yxdwd" path="res://Scripts/file_menu.gd" id="1_ig7tw"]
 [ext_resource type="Script" uid="uid://ds1wsfrs5jive" path="res://Scripts/loaded_sprites.gd" id="2_0xm2m"]
@@ -10,12 +10,17 @@
 [ext_resource type="Script" uid="uid://b3l0ovmphx50t" path="res://Scripts/canvas_size_x.gd" id="6_5vw27"]
 [ext_resource type="Script" uid="uid://dwqfkamflnjw2" path="res://Scripts/apply_all_button.gd" id="6_7mycd"]
 [ext_resource type="Script" uid="uid://cyuv4kevbnure" path="res://Scripts/canvas_size_y.gd" id="7_kek77"]
+[ext_resource type="Script" uid="uid://dqgqo2bwlnf4h" path="res://Scripts/grid_color_picker.gd" id="11_efxa6"]
+[ext_resource type="Script" uid="uid://br1q840qr0pqn" path="res://Scripts/line_thickness.gd" id="12_dg77c"]
+[ext_resource type="Script" uid="uid://bes1tiu2tjgou" path="res://Scripts/zoom.gd" id="13_ycdy4"]
+[ext_resource type="Script" uid="uid://clrkqfqw6yymd" path="res://Scripts/fill_grid.gd" id="14_w48qg"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_efxa6"]
 shader = ExtResource("3_4c57u")
-shader_parameter/line_color = Color(0.2, 0.3, 0.5, 1)
+shader_parameter/line_color = Color(0.392157, 0.145098, 0.713726, 1)
 shader_parameter/thickness = 6.0
-shader_parameter/zoom = 10.0
+shader_parameter/zoom = 20.0
+shader_parameter/solid_grid = false
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_7dm0k"]
 load_path = "res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex"
@@ -136,20 +141,26 @@ color = Color(0, 0, 0, 0)
 position = Vector2(64, 64)
 texture = SubResource("CompressedTexture2D_7dm0k")
 
-[node name="ParamaterContainer" type="VBoxContainer" parent="MainContainer/BodyMargins/BodyContainer"]
+[node name="ControlMenuTab" type="TabContainer" parent="MainContainer/BodyMargins/BodyContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+current_tab = 0
+
+[node name="SpriteSettings" type="VBoxContainer" parent="MainContainer/BodyMargins/BodyContainer/ControlMenuTab"]
 custom_minimum_size = Vector2(256, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+metadata/_tab_index = 0
 
-[node name="XOffsetContainer" type="HBoxContainer" parent="MainContainer/BodyMargins/BodyContainer/ParamaterContainer"]
+[node name="XOffsetContainer" type="HBoxContainer" parent="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/SpriteSettings"]
 layout_mode = 2
 
-[node name="XOffsetLabel" type="Label" parent="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/XOffsetContainer"]
+[node name="XOffsetLabel" type="Label" parent="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/SpriteSettings/XOffsetContainer"]
 layout_mode = 2
 text = "X-Offset: "
 
-[node name="XOffset" type="HSlider" parent="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/XOffsetContainer" node_paths=PackedStringArray("sprite", "value_label")]
+[node name="XOffset" type="HSlider" parent="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/SpriteSettings/XOffsetContainer" node_paths=PackedStringArray("sprite", "value_label")]
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -159,21 +170,21 @@ max_value = 64.0
 tick_count = 3
 ticks_on_borders = true
 script = ExtResource("3_h2yge")
-sprite = NodePath("../../../SubViewportContainer/SubViewport/Sprite2D")
+sprite = NodePath("../../../../SubViewportContainer/SubViewport/Sprite2D")
 value_label = NodePath("../XOffsetLabel2")
 
-[node name="XOffsetLabel2" type="Label" parent="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/XOffsetContainer"]
+[node name="XOffsetLabel2" type="Label" parent="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/SpriteSettings/XOffsetContainer"]
 layout_mode = 2
 text = "0"
 
-[node name="YOffsetContainer" type="HBoxContainer" parent="MainContainer/BodyMargins/BodyContainer/ParamaterContainer"]
+[node name="YOffsetContainer" type="HBoxContainer" parent="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/SpriteSettings"]
 layout_mode = 2
 
-[node name="YOffsetLabel" type="Label" parent="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/YOffsetContainer"]
+[node name="YOffsetLabel" type="Label" parent="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/SpriteSettings/YOffsetContainer"]
 layout_mode = 2
 text = "Y-Offset: "
 
-[node name="YOffset" type="HSlider" parent="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/YOffsetContainer" node_paths=PackedStringArray("sprite", "value_label")]
+[node name="YOffset" type="HSlider" parent="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/SpriteSettings/YOffsetContainer" node_paths=PackedStringArray("sprite", "value_label")]
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -183,72 +194,143 @@ max_value = 64.0
 tick_count = 3
 ticks_on_borders = true
 script = ExtResource("4_1bvp3")
-sprite = NodePath("../../../SubViewportContainer/SubViewport/Sprite2D")
+sprite = NodePath("../../../../SubViewportContainer/SubViewport/Sprite2D")
 value_label = NodePath("../YOffsetLabel2")
 
-[node name="YOffsetLabel2" type="Label" parent="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/YOffsetContainer"]
+[node name="YOffsetLabel2" type="Label" parent="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/SpriteSettings/YOffsetContainer"]
 layout_mode = 2
 text = "0"
 
-[node name="FlipContainer" type="HBoxContainer" parent="MainContainer/BodyMargins/BodyContainer/ParamaterContainer"]
+[node name="FlipContainer" type="HBoxContainer" parent="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/SpriteSettings"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="FlipH" type="CheckBox" parent="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/FlipContainer"]
+[node name="FlipH" type="CheckBox" parent="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/SpriteSettings/FlipContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "Flip H"
 
-[node name="FlipV" type="CheckBox" parent="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/FlipContainer"]
+[node name="FlipV" type="CheckBox" parent="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/SpriteSettings/FlipContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "Flip V"
 
-[node name="CanvasOverrideToggle" type="CheckButton" parent="MainContainer/BodyMargins/BodyContainer/ParamaterContainer" node_paths=PackedStringArray("sprite_selector")]
+[node name="CanvasOverrideToggle" type="CheckButton" parent="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/SpriteSettings" node_paths=PackedStringArray("sprite_selector")]
 layout_mode = 2
 text = "Override canvas size:"
 script = ExtResource("5_272bh")
-sprite_selector = NodePath("../../SpritesContainer/ScrollContainer/LoadedSprites")
+sprite_selector = NodePath("../../../SpritesContainer/ScrollContainer/LoadedSprites")
 
-[node name="CanvasSizeContainer" type="HBoxContainer" parent="MainContainer/BodyMargins/BodyContainer/ParamaterContainer"]
+[node name="CanvasSizeContainer" type="HBoxContainer" parent="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/SpriteSettings"]
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="CanvasSizeLabel" type="Label" parent="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/CanvasSizeContainer"]
+[node name="CanvasSizeLabel" type="Label" parent="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/SpriteSettings/CanvasSizeContainer"]
 layout_mode = 2
 text = "Canvas Width / Height:"
 
-[node name="CanvasSizeX" type="LineEdit" parent="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/CanvasSizeContainer" node_paths=PackedStringArray("sprite_selector")]
+[node name="CanvasSizeX" type="LineEdit" parent="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/SpriteSettings/CanvasSizeContainer" node_paths=PackedStringArray("sprite_selector")]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "32"
 script = ExtResource("6_5vw27")
-sprite_selector = NodePath("../../../SpritesContainer/ScrollContainer/LoadedSprites")
+sprite_selector = NodePath("../../../../SpritesContainer/ScrollContainer/LoadedSprites")
 
-[node name="CanvasSizeY" type="LineEdit" parent="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/CanvasSizeContainer" node_paths=PackedStringArray("sprite_selector")]
+[node name="CanvasSizeY" type="LineEdit" parent="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/SpriteSettings/CanvasSizeContainer" node_paths=PackedStringArray("sprite_selector")]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "32"
 script = ExtResource("7_kek77")
-sprite_selector = NodePath("../../../SpritesContainer/ScrollContainer/LoadedSprites")
+sprite_selector = NodePath("../../../../SpritesContainer/ScrollContainer/LoadedSprites")
 
-[node name="SaveCurrentButton" type="Button" parent="MainContainer/BodyMargins/BodyContainer/ParamaterContainer" node_paths=PackedStringArray("sprite_viewport", "grid")]
+[node name="SaveCurrentButton" type="Button" parent="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/SpriteSettings" node_paths=PackedStringArray("sprite_viewport", "grid")]
 layout_mode = 2
 text = "Save Current Sprite"
 script = ExtResource("5_lquwl")
-sprite_viewport = NodePath("../../SubViewportContainer/SubViewport")
-grid = NodePath("../../SubViewportContainer/SubViewport/Grid")
+sprite_viewport = NodePath("../../../SubViewportContainer/SubViewport")
+grid = NodePath("../../../SubViewportContainer/SubViewport/Grid")
 
-[node name="ApplyAllButton" type="Button" parent="MainContainer/BodyMargins/BodyContainer/ParamaterContainer" node_paths=PackedStringArray("sprite_viewport", "sprite_selector", "grid")]
+[node name="ApplyAllButton" type="Button" parent="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/SpriteSettings" node_paths=PackedStringArray("sprite_viewport", "sprite_selector", "grid")]
 layout_mode = 2
 text = "Apply Current Settings to All"
 script = ExtResource("6_7mycd")
-sprite_viewport = NodePath("../../SubViewportContainer/SubViewport")
-sprite_selector = NodePath("../../SpritesContainer/ScrollContainer/LoadedSprites")
-grid = NodePath("../../SubViewportContainer/SubViewport/Grid")
+sprite_viewport = NodePath("../../../SubViewportContainer/SubViewport")
+sprite_selector = NodePath("../../../SpritesContainer/ScrollContainer/LoadedSprites")
+grid = NodePath("../../../SubViewportContainer/SubViewport/Grid")
+
+[node name="GridSettings" type="ScrollContainer" parent="MainContainer/BodyMargins/BodyContainer/ControlMenuTab"]
+visible = false
+custom_minimum_size = Vector2(350, 512)
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="SettingsContainer" type="VBoxContainer" parent="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/GridSettings"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+
+[node name="GridColorPicker" type="ColorPicker" parent="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/GridSettings/SettingsContainer" node_paths=PackedStringArray("grid")]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+color = Color(0.392157, 0.145098, 0.713726, 1)
+script = ExtResource("11_efxa6")
+grid = NodePath("../../../../SubViewportContainer/SubViewport/Grid")
+
+[node name="LineThicknessContainer" type="HBoxContainer" parent="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/GridSettings/SettingsContainer"]
+layout_mode = 2
+
+[node name="LineThicknessLabel" type="Label" parent="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/GridSettings/SettingsContainer/LineThicknessContainer"]
+custom_minimum_size = Vector2(116, 0)
+layout_mode = 2
+text = "Line thickness:"
+
+[node name="LineThickness" type="HSlider" parent="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/GridSettings/SettingsContainer/LineThicknessContainer" node_paths=PackedStringArray("grid", "value_label")]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 1.0
+max_value = 10.0
+step = 0.1
+value = 2.0
+script = ExtResource("12_dg77c")
+grid = NodePath("../../../../../SubViewportContainer/SubViewport/Grid")
+value_label = NodePath("../LineThicknessLabel2")
+
+[node name="LineThicknessLabel2" type="Label" parent="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/GridSettings/SettingsContainer/LineThicknessContainer"]
+layout_mode = 2
+text = "6.0"
+
+[node name="ZoomContainer" type="HBoxContainer" parent="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/GridSettings/SettingsContainer"]
+layout_mode = 2
+
+[node name="ZoomLabel" type="Label" parent="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/GridSettings/SettingsContainer/ZoomContainer"]
+custom_minimum_size = Vector2(116, 0)
+layout_mode = 2
+text = "Zoom:"
+
+[node name="Zoom" type="HSlider" parent="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/GridSettings/SettingsContainer/ZoomContainer" node_paths=PackedStringArray("grid", "value_label")]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 1.0
+max_value = 50.0
+step = 0.1
+value = 10.0
+script = ExtResource("13_ycdy4")
+grid = NodePath("../../../../../SubViewportContainer/SubViewport/Grid")
+value_label = NodePath("../ZoomLabel2")
+
+[node name="ZoomLabel2" type="Label" parent="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/GridSettings/SettingsContainer/ZoomContainer"]
+layout_mode = 2
+text = "10.0"
+
+[node name="FillGrid" type="CheckButton" parent="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/GridSettings/SettingsContainer" node_paths=PackedStringArray("grid")]
+layout_mode = 2
+text = "Solid grid?"
+script = ExtResource("14_w48qg")
+grid = NodePath("../../../../SubViewportContainer/SubViewport/Grid")
 
 [node name="LoadSpritesDialog" type="FileDialog" parent="."]
 title = "Open File(s)"
@@ -259,12 +341,16 @@ filters = PackedStringArray("*.png")
 use_native_dialog = true
 
 [connection signal="item_selected" from="MainContainer/BodyMargins/BodyContainer/SpritesContainer/ScrollContainer/LoadedSprites" to="MainContainer/BodyMargins/BodyContainer/SpritesContainer/ScrollContainer/LoadedSprites" method="_on_item_selected"]
-[connection signal="value_changed" from="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/XOffsetContainer/XOffset" to="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/XOffsetContainer/XOffset" method="_on_value_changed"]
-[connection signal="value_changed" from="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/YOffsetContainer/YOffset" to="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/YOffsetContainer/YOffset" method="_on_value_changed"]
-[connection signal="toggled" from="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/FlipContainer/FlipH" to="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/XOffsetContainer/XOffset" method="_on_flip_x_toggled"]
-[connection signal="toggled" from="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/FlipContainer/FlipV" to="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/YOffsetContainer/YOffset" method="_on_flip_y_toggled"]
-[connection signal="toggled" from="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/CanvasOverrideToggle" to="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/CanvasOverrideToggle" method="_on_toggled"]
-[connection signal="text_changed" from="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/CanvasSizeContainer/CanvasSizeX" to="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/CanvasSizeContainer/CanvasSizeX" method="_on_text_changed"]
-[connection signal="text_changed" from="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/CanvasSizeContainer/CanvasSizeY" to="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/CanvasSizeContainer/CanvasSizeY" method="_on_text_changed"]
-[connection signal="pressed" from="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/SaveCurrentButton" to="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/SaveCurrentButton" method="_on_pressed"]
-[connection signal="pressed" from="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/ApplyAllButton" to="MainContainer/BodyMargins/BodyContainer/ParamaterContainer/ApplyAllButton" method="_on_pressed"]
+[connection signal="value_changed" from="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/SpriteSettings/XOffsetContainer/XOffset" to="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/SpriteSettings/XOffsetContainer/XOffset" method="_on_value_changed"]
+[connection signal="value_changed" from="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/SpriteSettings/YOffsetContainer/YOffset" to="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/SpriteSettings/YOffsetContainer/YOffset" method="_on_value_changed"]
+[connection signal="toggled" from="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/SpriteSettings/FlipContainer/FlipH" to="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/SpriteSettings/XOffsetContainer/XOffset" method="_on_flip_x_toggled"]
+[connection signal="toggled" from="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/SpriteSettings/FlipContainer/FlipV" to="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/SpriteSettings/YOffsetContainer/YOffset" method="_on_flip_y_toggled"]
+[connection signal="toggled" from="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/SpriteSettings/CanvasOverrideToggle" to="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/SpriteSettings/CanvasOverrideToggle" method="_on_toggled"]
+[connection signal="text_changed" from="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/SpriteSettings/CanvasSizeContainer/CanvasSizeX" to="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/SpriteSettings/CanvasSizeContainer/CanvasSizeX" method="_on_text_changed"]
+[connection signal="text_changed" from="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/SpriteSettings/CanvasSizeContainer/CanvasSizeY" to="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/SpriteSettings/CanvasSizeContainer/CanvasSizeY" method="_on_text_changed"]
+[connection signal="pressed" from="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/SpriteSettings/SaveCurrentButton" to="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/SpriteSettings/SaveCurrentButton" method="_on_pressed"]
+[connection signal="pressed" from="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/SpriteSettings/ApplyAllButton" to="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/SpriteSettings/ApplyAllButton" method="_on_pressed"]
+[connection signal="color_changed" from="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/GridSettings/SettingsContainer/GridColorPicker" to="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/GridSettings/SettingsContainer/GridColorPicker" method="_on_color_changed"]
+[connection signal="value_changed" from="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/GridSettings/SettingsContainer/LineThicknessContainer/LineThickness" to="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/GridSettings/SettingsContainer/LineThicknessContainer/LineThickness" method="_on_value_changed"]
+[connection signal="value_changed" from="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/GridSettings/SettingsContainer/ZoomContainer/Zoom" to="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/GridSettings/SettingsContainer/ZoomContainer/Zoom" method="_on_value_changed"]
+[connection signal="toggled" from="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/GridSettings/SettingsContainer/FillGrid" to="MainContainer/BodyMargins/BodyContainer/ControlMenuTab/GridSettings/SettingsContainer/FillGrid" method="_on_toggled"]
